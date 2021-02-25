@@ -14,16 +14,16 @@ golden()
 // Soal 2
 // Sederhanakan menjadi Object literal
 // ES5 syntax
-const newFunction = function literal(firstName, lastName){
-    return {
-        firstName: firstName,
-        lastName: lastName,
-        fullName: function(){
-            console.log(firstName + " " + lastName)
-            return 
-        }
-    }
-}
+// const newFunction = function literal(firstName, lastName){
+//     return {
+//         firstName: firstName,
+//         lastName: lastName,
+//         fullName: function(){
+//             console.log(firstName + " " + lastName)
+//             return 
+//         }
+//     }
+// }
 
 // ES6 syntax
 const newFunction = (firstName, lastName) => {
@@ -36,7 +36,6 @@ const newFunction = (firstName, lastName) => {
         }
     }
 }
-
 //Driver Code 
 newFunction("William", "Imoh").fullName()
 
