@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue</title>
+    <script src="js/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div id="comment" v-for="(data,index) in comments">
+            <br />
+            <input type="button" value="+" v-on:click="addScore(data,index)">
+            <br />
+            {{ data.comment }} || {{ data.date }} || Score: {{ sumScore(data) }}
+            <br />
+            <input type="button" value="-" v-on:click="minScore(data,index)">
+        </div>
+        <br />
+        <textarea id="text-area-comment" v-on:keyup.enter="comment" rows="7" cols="50" placeholder="Tambahkan Komentar Baru"></textarea>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                comments : [{
+                    'comment': 'komentar',
+                    'date': '27-02-2021',
+                    'score':[
+                        {'id': 4, 'value':1},
+                        {'id': 2, 'value':1},
+                        {'id': 1, 'value':1},
+                    ]
+                }],
+                score : [],
+            },
+            methods: {
+                comment() {
+                    let dataComment = document.getElementById('text-area-comment').value
+                    this.comments.push({
+                        comment : dataComment,
+                        date : this.now,
+                        score : this.score
+                    })
+                    document.getElementById('text-area-comment').value = ''
+                },
+                sumScore(data) {
+                    let sum = 0
+                    data.score.forEach((element) => {
+                        sum += element.value
+                    });
+                    return sum
+                },
+                addScore(data,idx) {
+                    let aru = false
+                    let id = 0
+
+                    data.score.forEach((element,index) => {
+                        if (idx == element.id) {
+                            aru = true
+                            id = index
+                        }
+                    });
+                    
+                    if (aru && data.score[id].value == -1) {
+                        data.score[id].value = 1
+                    } else if(!aru) {
+                        data.score.push({'id':idx,'value':1})
+                    }else {
+                        data.score.splice(id, 1)
+                    }
+                },
+                minScore(data,idx) {
+                    let aru = false
+                    let id = 0
+
+                    data.score.forEach((element,index) => {
+                        if (idx == element.id) {
+                            aru = true
+                            id = index
+                        }
+                    });
+                    
+                    if (aru && data.score[id].value == 1) {
+                        data.score[id].value = -1
+                    } else if(!aru) {
+                        data.score.push({'id':idx,'value':-1})
+                    }else {
+                        data.score.splice(id, 1)
+                    }
+                }
+            },
+            computed: {
+                now: function() {
+                    const today = new Date()
+                    const date = today.getDate() + '-' + (today.getMonth()+1 < 10 ? '0'+(today.getMonth()+1) : (today.getMonth()+1)) + '-' + today.getFullYear()
+                    return date
+                }
+            }
+        })
+    </script>
+</body>
+</html>
