@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Vue</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" id="text-input"><input type="button" value="add" v-on:click="add" v-show="!clicked"><input type="button" value="update" v-on:click="update" v-show="clicked">
+        <ul class="list-name" v-for="(user,index) in users">
+            <li>
+                {{ user.name }} <input type="button" value="edit" v-on:click="edit(index)"> || <input type="button" value="delete" v-on:click="del(index)">
+            </li>
+        </ul>
+    </div>
+    
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                users: [
+                    {
+                        'name': 'Muhammad Iqbal Mubarok',
+                    },
+                    {
+                        'name': 'Ruby Purwanti',
+                    },
+                    {
+                        'name': 'Faqih Muhammad',
+                    },
+                ],
+                clicked: false,
+                idx: 0,
+            },
+            methods: {
+                add() {
+                    let name = document.getElementById('text-input').value
+                    this.users.push({
+                        'name': name,
+                    })
+                    document.getElementById('text-input').value = ''
+                },
+                update() {
+                    let nameEdit = document.getElementById('text-input').value
+                    this.users.splice(this.idx,1,{
+                        'name': nameEdit,
+                    })
+                    document.getElementById('text-input').value = ''
+                },
+                edit(idx) {
+                    document.getElementById('text-input').value = this.users[idx].name
+                    this.idx = idx
+                    this.clicked = true
+                },
+                del(idx) {
+                    let conf = confirm('Anda yakin?')
+                    if(conf) {
+                        this.users.splice(idx, 1)
+                    }
+                },
+            },
+        });
+    </script>
+</body>
+</html>
